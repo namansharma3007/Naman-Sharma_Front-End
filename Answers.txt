@@ -1,0 +1,61 @@
+Q1 Ans:
+The Simple List component is a React component that displays a list of items. Each item in the list is a Single List Item component. When an item is clicked, it becomes selected and the background color of the item changes to green. If another item is clicked, it becomes selected and the previous item is deselected (background color returns to red). The List component takes an array of items as a prop and renders a Single List Item component for each item in the array. The List component also keeps track of the currently selected item using the useState hook. When the prop 'items' changes, the List component resets the selected item to null. The code also includes some PropTypes validation for the props passed to the components.
+
+
+Q2 Ans:
+In the "WrappedSingleListItem" component, the "onClick" prop is being assigned a function call with the "index" argument, which will cause it to be called immediately when the component is rendered. It should be assigned an arrow function that will be called when the component is clicked:
+
+error: onClick={onClickHandler(index)}
+correction: onClick={() => onClickHandler(index)}
+
+In the "WrappedListComponent" component, the "useState" hook is not being used correctly. It should be called with an initial value, such as "0" or "null".
+
+error: const [selectedIndex, setSelectedIndex] = useState();
+correction: const [selectedIndex, setSelectedIndex] = useState(null);
+
+There is syntax error with:
+WrappedListComponent.propTypes = {
+  items: PropTypes.array(
+    PropTypes.shapeOf({
+      text: PropTypes.string.isRequired,
+    })
+  ),
+};
+
+correction:
+WrappedListComponent.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({ 
+      text: PropTypes.string.isRequired.
+    })
+  ),
+};
+
+There is not key defined when mapping over SingleListItem:
+error:
+<ul style={{ textAlign: "left" }}>
+      {items.map((item, index) => (
+        <SingleListItem
+          onClickHandler={() => handleClick(index)}
+          text={item.text}
+          index={index}
+          isSelected={selectedIndex}
+        />
+      ))}
+    </ul>
+
+correction:
+<ul style={{ textAlign: "left" }}>
+      {items.map((item, index) => (
+        <SingleListItem
+          key={index}
+          onClickHandler={() => handleClick(index)}
+          text={item.text}
+          index={index}
+          isSelected={selectedIndex}
+        />
+      ))}
+    </ul>
+
+Q3 Ans:
+"ListOptimized.jsx" has been provided with better code
